@@ -1,28 +1,27 @@
 {
   "name": "service-python-simpl-toolkit",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple toolkit application",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "npx electron .",
     "dist": "electron-builder"
   },
   "build": {
-    "appId": "SIMPL Toolkit",
+    "appId": "com.simpl.toolkit",
     "win": {
       "target": "nsis",
       "icon": "icon.ico"
     },
     "files": [
       "main.js",
-      "index.html",
-      "renderer.js",
-      "node_modules/**",
-      "backend/**"
+      "frontend/**",
+      "backend/**",
+      "node_modules/**"
     ]
   },
   "keywords": [],
-  "author": "",
+  "author": "Your Name",
   "license": "ISC",
   "devDependencies": {
     "axios": "^0.21.1",

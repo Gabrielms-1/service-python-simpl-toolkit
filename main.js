@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 
@@ -19,11 +19,13 @@ function createWindow() {
     width: 400,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'renderer.js')
+      preload: path.join(__dirname, 'frontend/renderer.js'),
+      nodeIntegration: true,
+      contextIsolation: false
     }
   });
 
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('frontend/index.html');
   
   // Start the Flask server using python3
   exec('python3 backend/app.py', (err, stdout, stderr) => {
@@ -67,6 +69,13 @@ function saveWindowState() {
     height: windowBounds.height
   }), 'utf-8');
 }
+
+ipcMain.handle('open-folder-dialog', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory']
+  });
+  return result.filePaths[0];
+});
 
 app.whenReady().then(() => {
   createWindow();
